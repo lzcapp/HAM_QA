@@ -1,19 +1,20 @@
 import json
+import os
 
 
-def json_to_html(json_file_path, html_file_path):
+def generate_html_by_type(json_file_path, output_dir='output', output_prefix='output_type_'):
     """
-    Parses a JSON file containing a list of question-answer dictionaries and
-    generates a human-readable HTML file.
+    Reads a JSON file containing a list of questions, groups them by 'type',
+    and generates a separate HTML file for each type.
 
     Args:
         json_file_path (str): The path to the input JSON file.
-        html_file_path (str): The path where the output HTML file will be saved.
+        output_dir (str): The name of the subdirectory to save the HTML files.
+        output_prefix (str): The prefix for the output HTML filenames.
     """
     try:
-        # Open and load the JSON data from the specified file
         with open(json_file_path, 'r', encoding='utf-8') as f:
-            json_data = json.load(f)
+            all_questions = json.load(f)
     except FileNotFoundError:
         print(f"Error: The file at '{json_file_path}' was not found.")
         return
@@ -21,75 +22,87 @@ def json_to_html(json_file_path, html_file_path):
         print(f"Error: Could not decode JSON from the file at '{json_file_path}'. Please check its format.")
         return
 
-    # HTML header with basic styling for readability
-    html_content = """
-    <!DOCTYPE html>
-    <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>题目和答案</title>
-        <style>
-            body { font-family: sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f4f4; }
-            .question-block {
-                background: #fff;
-                border: 1px solid #ddd;
-                padding: 15px;
-                margin-bottom: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-            .question { font-weight: bold; font-size: 1.1em; color: #333; }
-            .answer { color: #007BFF; margin-top: 5px; font-style: italic; }
-            .answer strong { color: #555; }
-        </style>
-    </head>
-    <body>
-        <h1>题目和答案</h1>
-    """
+    # Create the output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"Created directory: {output_dir}")
 
-    # Loop through each item in the JSON data
-    for item in json_data:
-        question_text = item.get("question", "问题未找到")
-        answer_keys = item.get("answer", "")
-        options = item.get("options", {})
-        index = item.get("index", "")
+    # Group questions by their 'type'
+    grouped_questions = {}
+    for question in all_questions:
+        doc_type = question.get('type')
+        if doc_type:
+            if doc_type not in grouped_questions:
+                grouped_questions[doc_type] = []
+            grouped_questions[doc_type].append(question)
 
-        # Build the full answer text from the option keys and descriptions
-        full_answer_list = []
-        for key in answer_keys:
-            if key in options:
-                full_answer_list.append(f"{key}: {options[key]}")
+    # Generate an HTML file for each group
+    for doc_type, questions in grouped_questions.items():
+        if doc_type == '未知':
+            output_path = os.path.join(output_dir, "未分类题库.html")
+        else:
+            output_path = os.path.join(output_dir, f"{doc_type}类题库.html")
 
-        full_answer_text = "；".join(full_answer_list)
-
-        if not full_answer_text:
-            full_answer_text = f"答案: {answer_keys}"
-
-        # Append the new question and answer to the HTML content
-        html_content += f"""
-        <div class="question-block">
-            <p class="question">{index}. {question_text}</p>
-            <p class="answer"><strong>答案:</strong> {full_answer_text}</p>
-        </div>
+        # HTML header with a link to an external stylesheet
+        html_content = f"""
+        <!DOCTYPE html>
+        <html lang="zh-CN">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{doc_type}类题库</title>
+            <link rel="stylesheet" href="./index.css">
+        </head>
+        <body>
+            <main>
+                <h1>{doc_type}类题库</h1>
         """
 
-    # Close the HTML content
-    html_content += """
-    </body>
-    </html>
-    """
+        for item in questions:
+            question_text = item.get("question", "")
+            answer_keys = item.get("answer", "")
+            options = item.get("options", {})
+            index = item.get("index", "")
 
-    # Write the complete HTML content to the specified file
-    try:
-        with open(html_file_path, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        print(f"成功生成HTML文件: {html_file_path}")
-    except IOError as e:
-        print(f"写入文件时出错: {e}")
+            if question_text == "":
+                continue
+
+            # Build the full answer text from the option keys and descriptions
+            full_answer_list = []
+            for key in answer_keys:
+                if key in options:
+                    full_answer_list.append(options[key])
+
+            full_answer_text = "<br>".join(full_answer_list)
+
+            if not full_answer_text:
+                full_answer_text = f"答案: {answer_keys}"
+
+            # Append the question and answer to the HTML content
+            html_content += f"""
+            <div class="question-block">
+                <p class="question">{question_text}</p>
+                <p class="answer">{full_answer_text}</p>
+            </div>
+            """
+
+        # Close the HTML content
+        html_content += """
+            </main>
+        </body>
+        </html>
+        """
+
+        # Write the complete HTML content to the specified file
+        try:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            print(f"成功生成HTML文件: {output_path}")
+        except IOError as e:
+            print(f"写入文件时出错: {e}")
 
 
 # Example usage:
-# Assuming you have a JSON file named 'data.json' with the required structure.
-# The script will save the output to a file named 'output.html'.
-json_to_html('data/', 'output.html')
+# Assuming your JSON data is in a file named 'data.json'.
+# The script will generate output_type_A.html, output_type_B.html, etc.
+generate_html_by_type('data/题库带分类.json')

@@ -1,0 +1,63 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+.question-block {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.question {
+    color: #1A237E;
+    margin-bottom: 5px;
+}
+.answer {
+    color: #424242;
+}
+.answer strong {
+    color: #555;
+}
+
+/* --- Print-specific styles for A4 optimization --- */
+@media print {
+    body {
+        background-color: #fff;
+        font-size: 11pt; /* A more common font size for printing */
+        padding: 0;
+        margin: 2cm; /* Set A4 margins */
+    }
+    main {
+        max-width: 100%;
+    }
+    .question-block {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin-bottom: 25px; /* Adjust spacing for print */
+        break-after: avoid; /* Prevents page break inside a question block */
+    }
+    .question, .answer {
+        font-size: 1em;
+        color: #000;
+    }
+    h1 {
+        border-bottom: 1px solid #000;
+        margin-bottom: 20px;
+    }
+}
