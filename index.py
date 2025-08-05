@@ -92,4 +92,4 @@ def json_to_html(json_file_path, html_file_path):
 # Example usage:
 # Assuming you have a JSON file named 'data.json' with the required structure.
 # The script will save the output to a file named 'output.html'.
-json_to_html('data.json', 'output.html')
+json_to_html('data/', 'output.html')
