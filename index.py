@@ -2,7 +2,7 @@ import json
 import os
 
 
-def generate_html_by_type(json_file_path, output_dir='output', output_prefix='output_type_'):
+def generate_html_by_type(json_file_path, output_dir='output'):
     """
     Reads a JSON file containing a list of questions, groups them by 'type',
     and generates a separate HTML file for each type.
@@ -10,7 +10,6 @@ def generate_html_by_type(json_file_path, output_dir='output', output_prefix='ou
     Args:
         json_file_path (str): The path to the input JSON file.
         output_dir (str): The name of the subdirectory to save the HTML files.
-        output_prefix (str): The prefix for the output HTML filenames.
     """
     try:
         with open(json_file_path, 'r', encoding='utf-8') as f:
@@ -65,7 +64,7 @@ def generate_html_by_type(json_file_path, output_dir='output', output_prefix='ou
             question_text = item.get("question", "")
             answer_keys = item.get("answer", "")
             options = item.get("options", {})
-            index = item.get("index", "")
+            # index = item.get("index", "")
 
             if question_text == "":
                 continue
