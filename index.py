@@ -38,6 +38,9 @@ def generate_html_by_type(json_file_path, output_dir='output', output_prefix='ou
 
     # Generate an HTML file for each group
     for doc_type, questions in grouped_questions.items():
+        if len(questions) <= 0:
+            continue
+
         if doc_type == '未知':
             output_path = os.path.join(output_dir, "未分类题库.html")
         else:

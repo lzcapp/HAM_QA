@@ -37,27 +37,39 @@ h1 {
 /* --- Print-specific styles for A4 optimization --- */
 @media print {
     body {
-        background-color: #fff;
-        font-size: 11pt; /* A more common font size for printing */
+        font-family: sans-serif;
+        line-height: 1.6;
+        background-color: #f4f4f4;
+        color: #333;
+        font-weight: bold;
         padding: 0;
         margin: 2cm; /* Set A4 margins */
     }
     main {
-        max-width: 100%;
-    }
-    .question-block {
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        margin-bottom: 25px; /* Adjust spacing for print */
-        break-after: avoid; /* Prevents page break inside a question block */
-    }
-    .question, .answer {
-        font-size: 1em;
-        color: #000;
+        max-width: 800px;
+        margin: 0 auto;
     }
     h1 {
-        border-bottom: 1px solid #000;
-        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .question-block {
+        background: #fff;
+        padding: 15px;
+        margin-bottom: 25px; /* Adjust spacing for print */
+        break-after: avoid;
+        border: none;
+        box-shadow: none;
+    }
+    .question {
+        color: #1A237E;
+        margin-bottom: 5px;
+    }
+    .answer {
+        color: #424242;
+    }
+    .answer strong {
+        color: #555;
     }
 }
