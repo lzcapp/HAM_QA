@@ -1,3 +1,6 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/lzcapp/amateur_radio_operator_technical_ability_examination_china
+[submodule "data_csv"]
+	path = data_csv
+	url = https://github.com/lzcapp/crac-amateur-radio-exam-questions-2025-csv

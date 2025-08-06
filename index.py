@@ -21,11 +21,6 @@ def generate_html_by_type(json_file_path, output_dir='output'):
         print(f"Error: Could not decode JSON from the file at '{json_file_path}'. Please check its format.")
         return
 
-    # Create the output directory if it doesn't exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        print(f"Created directory: {output_dir}")
-
     # Group questions by their 'type'
     grouped_questions = {}
     for question in all_questions:
@@ -53,7 +48,7 @@ def generate_html_by_type(json_file_path, output_dir='output'):
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{doc_type}类题库</title>
-            <link rel="stylesheet" href="./index.css">
+            <link rel="stylesheet" href="./styles.css">
         </head>
         <body>
             <main>
