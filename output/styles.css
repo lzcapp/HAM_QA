@@ -1,8 +1,10 @@
+html {
+    background-color: #f4f4f4;
+}
 body {
     font-family: sans-serif;
     line-height: 1.6;
     padding: 20px;
-    background-color: #f4f4f4;
     color: #333;
     font-weight: bold;
 }
@@ -15,11 +17,14 @@ h1 {
     border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
 }
+.question-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .question-block {
     background: #fff;
     border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -36,40 +41,21 @@ h1 {
 
 /* --- Print-specific styles for A4 optimization --- */
 @media print {
-    body {
-        font-family: sans-serif;
-        line-height: 1.6;
-        background-color: #f4f4f4;
-        color: #333;
-        font-weight: bold;
-        padding: 0;
-        margin: 2cm; /* Set A4 margins */
+    @page {
+        size: A4 portrait;
     }
-    main {
-        max-width: 800px;
-        margin: 0 auto;
+    html {
+        background-color: #f4f4f4;
+    }
+    body {
+        margin: 2cm;
+        font-size: 11pt;
     }
     h1 {
-        text-align: center;
-        border-bottom: 2px solid #ddd;
-        padding-bottom: 10px;
-    }
-    .question-block {
-        background: #fff;
-        padding: 15px;
-        margin-bottom: 25px; /* Adjust spacing for print */
-        break-after: avoid;
         border: none;
-        box-shadow: none;
+        font-size: 14pt;
     }
-    .question {
-        color: #1A237E;
-        margin-bottom: 5px;
-    }
-    .answer {
-        color: #424242;
-    }
-    .answer strong {
-        color: #555;
+    .question-box {
+        break-inside: avoid;
     }
 }

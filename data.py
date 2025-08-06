@@ -77,9 +77,11 @@ def generate_html_by_type(json_file_path, output_dir='output'):
 
             # Append the question and answer to the HTML content
             html_content += f"""
-            <div class="question-block">
-                <p class="question">{question_text}</p>
-                <p class="answer">{full_answer_text}</p>
+            <div class="question-box">
+                <div class="question-block">
+                    <p class="question">{question_text}</p>
+                    <p class="answer">{full_answer_text}</p>
+                </div>
             </div>
             """
 

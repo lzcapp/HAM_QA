@@ -101,6 +101,14 @@ def generate_html_by_type(csv_file_names, csv_data_dir, image_csv_name='images.c
         # 构建 HTML 的输出路径
         html_output_path = os.path.join(output_dir, f"{output_prefix}{doc_type}.html")
 
+        name = ''
+        if doc_type == "CLASS_A":
+            name = "A类"
+        elif doc_type == "CLASS_B":
+            name = "B类"
+        elif doc_type == "CLASS_C":
+            name = "C类"
+
         # HTML 头部，链接到外部样式表
         # 样式表路径相对于 HTML 文件（假设 styles.css 在父目录中）
         html_content = f"""
@@ -109,12 +117,12 @@ def generate_html_by_type(csv_file_names, csv_data_dir, image_csv_name='images.c
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>{doc_type}题库</title>
+            <title>{name}题库</title>
             <link rel="stylesheet" href="./styles.css">
         </head>
         <body>
             <main>
-                <h1>{doc_type}题库</h1>
+                <h1>{name}题库</h1>
         """
 
         for item in questions:
@@ -148,10 +156,12 @@ def generate_html_by_type(csv_file_names, csv_data_dir, image_csv_name='images.c
 
             # 将问题和答案添加到 HTML 内容中
             html_content += f"""
-            <div class="question-block">
-                <p class="question">{question_text}</p>
-                {image_html} <!-- 在这里插入图片 -->
-                <p class="answer">{full_answer_text}</p>
+            <div class="question-box">
+                <div class="question-block">
+                    <p class="question">{question_text}</p>
+                    {image_html} <!-- 在这里插入图片 -->
+                    <p class="answer">{full_answer_text}</p>
+                </div>
             </div>
             """
 
